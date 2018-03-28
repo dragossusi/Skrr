@@ -2,7 +2,9 @@ package rachieru.colteanu.bosschet.base;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import rachieru.colteanu.bosschet.SkrrGame;
@@ -41,7 +43,18 @@ public abstract class BaseScreen implements Screen {
     }
 
     @Override
+    public void render(float delta) {
+        Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        getStage().draw();
+    }
+
+    @Override
     public void dispose() {
         stage.dispose();
+    }
+
+    public Skin getSkin() {
+        return game.getSkin();
     }
 }

@@ -2,6 +2,7 @@ package rachieru.colteanu.bosschet.start;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -24,7 +25,7 @@ import rachieru.colteanu.bosschet.play.PlayScreen;
 public class StartScreen extends BaseScreen {
 
     private TextButton button;
-    private Skin skin;
+    private Music backgroundMusic;
 
     public StartScreen(final SkrrGame game) {
         super(game);
@@ -32,17 +33,22 @@ public class StartScreen extends BaseScreen {
 
     @Override
     public void show() {
-        skin = new Skin();
-        skin.addRegions(new TextureAtlas(Gdx.files.internal("uiskin.atlas")));
-        skin.add("default-font", new BitmapFont());
-        skin.load(Gdx.files.internal("uiskin.json"));
+        super.show();
 
         initButtons();
+        initSound();
+    }
+
+    private void initSound() {
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("music/start_bg.mp3"));
+        backgroundMusic.setLooping(true);
+        backgroundMusic.play();
     }
 
     private void initButtons() {
-        button = new TextButton("Play", skin, "default");
-        button.setPosition(Gdx.graphics.getWidth() / 2.0f, Gdx.graphics.getHeight() / 2.0f);
+        button = new TextButton("Play", getSkin());
+        button.setX(Gdx.graphics.getWidth() / 2.0f);
+        button.setY(Gdx.graphics.getHeight() / 2.0f);
         button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -54,19 +60,17 @@ public class StartScreen extends BaseScreen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        getStage().draw();
+        super.render(delta);
     }
 
     @Override
     public void pause() {
-
+        backgroundMusic.setVolume(0.0f);
     }
 
     @Override
     public void resume() {
-
+        backgroundMusic.setVolume(1.0f);
     }
 
     @Override
