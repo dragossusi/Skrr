@@ -27,7 +27,7 @@ public class SkrrGame extends Game {
     public void create() {
         try {
             socket = IO.socket("http://localhost:3000");
-            socket.connect();
+            //socket.connect();
         } catch (URISyntaxException e) {
             Gdx.app.exit();
         }
@@ -44,7 +44,7 @@ public class SkrrGame extends Game {
 
     @Override
     public void dispose() {
-        socket.disconnect();
+        //socket.disconnect();
         socket.close();
     }
 

@@ -18,10 +18,6 @@ public abstract class BaseScreen implements Screen {
     private SkrrGame game;
     private Stage stage;
 
-    public Stage getStage() {
-        return stage;
-    }
-
     public SkrrGame getGame() {
         return game;
     }
@@ -29,6 +25,7 @@ public abstract class BaseScreen implements Screen {
     public BaseScreen(SkrrGame game) {
         this.game = game;
         stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        System.out.println(stage.toString());
     }
 
     @Override
@@ -46,12 +43,16 @@ public abstract class BaseScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        getStage().draw();
+        stage.draw();
     }
 
     @Override
     public void dispose() {
         stage.dispose();
+    }
+
+    public Stage getStage() {
+        return stage;
     }
 
     public Skin getSkin() {
