@@ -3,7 +3,7 @@ package rachieru.colteanu.bosschet.client;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
-import rachieru.colteanu.bosschet.MyGdxGame;
+import rachieru.colteanu.bosschet.SkrrGame;
 
 public class HtmlLauncher extends GwtApplication {
 
@@ -46,6 +46,6 @@ public class HtmlLauncher extends GwtApplication {
 
         @Override
         public ApplicationListener createApplicationListener () {
-                return new MyGdxGame();
+                return new SkrrGame();
         }
 }
