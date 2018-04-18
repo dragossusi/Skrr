@@ -3,8 +3,10 @@ package rachieru.colteanu.bosschet.base;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import rachieru.colteanu.bosschet.SkrrGame;
@@ -31,6 +33,10 @@ public abstract class BaseScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         //disabled
+    }
+
+    protected void addActor(Actor actor) {
+        stage.addActor(actor);
     }
 
     @Override

@@ -42,6 +42,7 @@ public class StartScreen extends BaseScreen {
     private void initSound() {
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("music/start_bg.mp3"));
         backgroundMusic.setLooping(true);
+        backgroundMusic.setVolume(0.4f);
         backgroundMusic.play();
     }
 
@@ -55,7 +56,7 @@ public class StartScreen extends BaseScreen {
                 getGame().setScreen(new PlayScreen(getGame()));
             }
         });
-        getStage().addActor(button);
+        addActor(button);
     }
 
     @Override
