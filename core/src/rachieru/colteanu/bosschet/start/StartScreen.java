@@ -1,22 +1,14 @@
 package rachieru.colteanu.bosschet.start;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import rachieru.colteanu.bosschet.SkrrGame;
 import rachieru.colteanu.bosschet.base.BaseScreen;
-import rachieru.colteanu.bosschet.play.PlayScreen;
+import rachieru.colteanu.bosschet.play.view.PlayScreen;
 
 /**
  * Created by Dragos on 27.03.2018.

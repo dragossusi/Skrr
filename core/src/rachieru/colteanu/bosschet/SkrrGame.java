@@ -16,7 +16,6 @@ import io.socket.client.Socket;
 import rachieru.colteanu.bosschet.start.StartScreen;
 
 public class SkrrGame extends Game {
-    private Socket socket;
     private Skin skin;
 
     public Skin getSkin() {
@@ -25,12 +24,6 @@ public class SkrrGame extends Game {
 
     @Override
     public void create() {
-        try {
-            socket = IO.socket("http://localhost:3000");
-            //socket.connect();
-        } catch (URISyntaxException e) {
-            Gdx.app.exit();
-        }
         skin = new Skin();
         skin.addRegions(new TextureAtlas(Gdx.files.internal("uiskin.atlas")));
         skin.load(Gdx.files.internal("uiskin.json"));
@@ -45,10 +38,6 @@ public class SkrrGame extends Game {
     @Override
     public void dispose() {
         //socket.disconnect();
-        socket.close();
     }
 
-    public Socket getSocket() {
-        return socket;
-    }
 }
