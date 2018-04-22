@@ -1,12 +1,15 @@
 package rachieru.colteanu.bosschet.play.presenter;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.google.gson.Gson;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import io.socket.emitter.Emitter;
 import rachieru.colteanu.bosschet.base.Disposable;
@@ -18,10 +21,14 @@ public class PlayPresenter implements Disposable {
 
     PlayModel model;
     IPlayViewDelegate viewDelegate;
+    Texture playerTexture;
+    Gson gson;
 
-    public PlayPresenter(IPlayViewDelegate viewDelegate) throws URISyntaxException {
+    public PlayPresenter(IPlayViewDelegate viewDelegate, Texture texture) throws URISyntaxException {
         this.viewDelegate = viewDelegate;
         model = new PlayModel();
+        gson = new Gson();
+        playerTexture = texture;
     }
 
     @Override
@@ -60,18 +67,38 @@ public class PlayPresenter implements Disposable {
             @Override
             public void call(Object... args) {
                 JSONArray jsonArray = (JSONArray) args[0];
-                List<Player> players = new ArrayList<Player>();
+                Map<String,Player> players = new HashMap<String, Player>();
                 try {
                     for (int i = 0; i < jsonArray.length(); ++i) {
                         JSONObject object = jsonArray.getJSONObject(i);
-                        players.add(new Player(
-                                object.getInt("x"),
-                                object.getInt("y"),
-                                object.getString("nume"),
-                                object.getString("id")
-                        ));
+                        players.put(
+                                object.getString("id"),
+                                new Player(
+                                        playerTexture,
+                                        object.getString("id"),
+                                        object.getInt("x"),
+                                        object.getInt("y"),
+                                        object.getString("nume")
+                                ));
                     }
                     viewDelegate.onPlayersReceived(players);
+                } catch (JSONException e) {
+                    viewDelegate.onError(e);
+                }
+            }
+        });
+        model.onNewPlayer(new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                try {
+                    JSONObject object = (JSONObject) args[0];
+                    viewDelegate.newPlayer(new Player(
+                            playerTexture,
+                            object.getString("id"),
+                            object.getDouble("x"),
+                            object.getDouble("y"),
+                            object.getString("nume")
+                    ));
                 } catch (JSONException e) {
                     viewDelegate.onError(e);
                 }
@@ -82,6 +109,7 @@ public class PlayPresenter implements Disposable {
     public void emitMoved(Player me) {
         JSONObject jsonObject = new JSONObject();
         try {
+            jsonObject.put("id", me.getId());
             jsonObject.put("x", me.getX());
             jsonObject.put("y", me.getY());
             model.emitMoved(jsonObject);

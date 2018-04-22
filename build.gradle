@@ -96,6 +96,7 @@ project(":core") {
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+        compile 'com.google.code.gson:gson:2.8.2'
         compile ('io.socket:socket.io-client:1.0.0')
 //                {
 //            // excluding org.json which is provided by Android

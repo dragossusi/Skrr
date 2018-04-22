@@ -11,32 +11,27 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Player extends Sprite {
 
-    String nume;
-    String id;
+    private String nume;
+    private String id;
 
-    private static Texture texture = new Texture(Gdx.files.internal("player.png"));
-    //todo texture
-
-    public Player(double x, double y, String nume, String id) {
-        setX((float) x);
-        setY((float) y);
-        this.nume = nume;
-        this.id = id;
-    }
-
-
-    public Player(String id) {
+    public Player(Texture texture, String id, float x, float y) {
         super(texture);
         this.id = id;
         setScale(0.10f);
-        setX(0.0f);
-        setY(0.0f);
+        setX(x);
+        setY(y);
     }
 
-    public Player(double x,double y, String id) {
-        this(id);
-        setX((float) x);
-        setY((float) y);
+    public Player(Texture texture, String id) {
+        this(texture,id,0.0f,0.0f);
     }
 
+    public Player(Texture texture, String id, double x, double y, String nume) {
+        this(texture, id,(float)x, (float) y);
+        this.nume = nume;
+    }
+
+    public String getId() {
+        return id;
+    }
 }

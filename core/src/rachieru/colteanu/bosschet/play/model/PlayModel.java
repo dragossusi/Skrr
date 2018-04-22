@@ -30,7 +30,12 @@ public class PlayModel {
         socket.emit("player_moved", object);
     }
 
+    public void onNewPlayer(Emitter.Listener listener) {
+        socket.on("new_player", listener);
+    }
+
     public void connect(Emitter.Listener listener) {
+        socket.connect();
         socket.on("socket_id", listener);
     }
 }
