@@ -5,9 +5,15 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -19,6 +25,8 @@ import java.util.Map;
 
 import rachieru.colteanu.bosschet.SkrrGame;
 import rachieru.colteanu.bosschet.base.BaseScreen;
+import rachieru.colteanu.bosschet.base.HorizontalDirection;
+import rachieru.colteanu.bosschet.base.VerticalDirection;
 import rachieru.colteanu.bosschet.play.presenter.PlayPresenter;
 import rachieru.colteanu.bosschet.ui.player.Player;
 
@@ -32,12 +40,13 @@ public class PlayScreen extends BaseScreen implements IPlayViewDelegate {
     ProgressBar progressBar;
     private OrthographicCamera gameCamera;
     private Viewport viewport;
-    Map<String,Player> players;
+    Map<String, Player> players;
     Player me;
     SpriteBatch batch;
     PlayPresenter presenter;
     boolean connected = false;
     Texture playerTexture = new Texture(Gdx.files.internal("player.png"));
+    private Dialog dialogError;
 
     public PlayScreen(SkrrGame game) {
         super(game);
@@ -58,10 +67,17 @@ public class PlayScreen extends BaseScreen implements IPlayViewDelegate {
     public void show() {
         super.show();
         presenter.init();
-        button = new Button(getSkin());
-        button.setX(0);
-        button.setY(0);
-        addActor(button);
+        button = new TextButton("eroare e", getSkin());
+        button.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                if (dialogError != null)
+                    dialogError.hide();
+            }
+        });
+//        button.setX(0);
+//        button.setY(0);
         //button = new Button(getSkin());
         //me.setX(0);
         //me.setY(0);
@@ -75,15 +91,21 @@ public class PlayScreen extends BaseScreen implements IPlayViewDelegate {
     @Override
     public void render(float delta) {
         super.render(delta);
+//        gameCamera.update();
+//        batch.setProjectionMatrix(gameCamera.combined);
         if (connected) {
             if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
-                me.setX(me.getX() + 10);
+//                me.setX(me.getX() + 10);
+                me.rotate(HorizontalDirection.RIGHT);
             if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
-                me.setX(me.getX() - 10);
+//                me.setX(me.getX() - 10);
+                me.rotate(HorizontalDirection.LEFT);
             if (Gdx.input.isKeyPressed(Input.Keys.UP))
-                me.setY(me.getY() + 10);
+//                me.setY(me.getY() + 10);
+                me.move(VerticalDirection.FORWARD);
             if (Gdx.input.isKeyPressed(Input.Keys.DOWN))
-                me.setY(me.getY() - 10);
+//                me.setY(me.getY() - 10);
+                me.move(VerticalDirection.BACKWARD);
             batch.begin();
             me.draw(batch);
             for (Player player : players.values())
@@ -109,34 +131,35 @@ public class PlayScreen extends BaseScreen implements IPlayViewDelegate {
     }
 
     @Override
-    public void onPlayerMoved(String id, double x, double y) {
+    public void onPlayerMoved(String id, double x, double y, Vector2 direction) {
         players.get(id).setX((float) x);
         players.get(id).setY((float) y);
+        players.get(id).setDirection(direction);
     }
 
     @Override
-    public void onPlayersReceived(Map<String,Player> players) {
+    public void onPlayersReceived(Map<String, Player> players) {
         this.players = players;
     }
 
     @Override
     public void onError(Throwable e) {
         e.printStackTrace();
-        Dialog dialog = new Dialog("Warning", getSkin(), "dialog");
-        dialog.text(e.getMessage());
-        dialog.show(getStage());
-        dialog.button("Ok");
+        dialogError = new Dialog("Warning", getSkin(), "dialog");
+        dialogError.text(e.getMessage());
+        dialogError.show(getStage());
+        dialogError.button(button);
     }
 
     @Override
     public void onConnected(String id) {
-        me = new Player(playerTexture,id);
+        me = new Player(playerTexture, id);
         connected = true;
     }
 
     @Override
     public void newPlayer(Player player) {
-        players.put(player.getId(),player);
+        players.put(player.getId(), player);
     }
 
     @Override

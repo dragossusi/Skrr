@@ -34,7 +34,7 @@ public class StartScreen extends BaseScreen {
     private void initSound() {
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("music/start_bg.mp3"));
         backgroundMusic.setLooping(true);
-        backgroundMusic.setVolume(0.4f);
+        backgroundMusic.setVolume(0.1f);
         backgroundMusic.play();
     }
 
@@ -74,5 +74,7 @@ public class StartScreen extends BaseScreen {
     @Override
     public void dispose() {
         super.dispose();
+        backgroundMusic.stop();
+        backgroundMusic.dispose();
     }
 }

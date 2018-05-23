@@ -1,6 +1,7 @@
 package rachieru.colteanu.bosschet.play.presenter;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -56,7 +57,9 @@ public class PlayPresenter implements Disposable {
                     viewDelegate.onPlayerMoved(
                             object.getString("id"),
                             object.getDouble("x"),
-                            object.getDouble("y")
+                            object.getDouble("y"),
+                            new Vector2((float) object.getDouble("dirX"),
+                                    (float) object.getDouble("dirY"))
                     );
                 } catch (JSONException e) {
                     viewDelegate.onError(e);
@@ -67,7 +70,7 @@ public class PlayPresenter implements Disposable {
             @Override
             public void call(Object... args) {
                 JSONArray jsonArray = (JSONArray) args[0];
-                Map<String,Player> players = new HashMap<String, Player>();
+                Map<String, Player> players = new HashMap<String, Player>();
                 try {
                     for (int i = 0; i < jsonArray.length(); ++i) {
                         JSONObject object = jsonArray.getJSONObject(i);
@@ -116,6 +119,8 @@ public class PlayPresenter implements Disposable {
             jsonObject.put("id", me.getId());
             jsonObject.put("x", me.getX());
             jsonObject.put("y", me.getY());
+            jsonObject.put("dirX", me.getDirection().x);
+            jsonObject.put("dirY", me.getDirection().y);
             model.emitMoved(jsonObject);
         } catch (JSONException e) {
             viewDelegate.onError(e);
