@@ -14,7 +14,7 @@ public class Player extends Sprite {
     private String nume;
     private String id;
 
-    public Player(Texture texture, String id, float x, float y) {
+    public Player(Texture texture, String id, float x, float y, float dirX, float dirY) {
         super(texture);
         this.id = id;
         setScale(0.10f);
@@ -23,11 +23,11 @@ public class Player extends Sprite {
     }
 
     public Player(Texture texture, String id) {
-        this(texture,id,0.0f,0.0f);
+        this(texture, id, 0.0f, 0.0f,0.f,0.f);
     }
 
-    public Player(Texture texture, String id, double x, double y, String nume) {
-        this(texture, id,(float)x, (float) y);
+    public Player(Texture texture, String id, double x, double y,double dirX,double dirY, String nume) {
+        this(texture, id, (float) x, (float) y,(float)dirX, (float) dirY);
         this.nume = nume;
     }
 

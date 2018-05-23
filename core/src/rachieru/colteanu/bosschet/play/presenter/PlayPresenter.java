@@ -76,8 +76,10 @@ public class PlayPresenter implements Disposable {
                                 new Player(
                                         playerTexture,
                                         object.getString("id"),
-                                        object.getInt("x"),
-                                        object.getInt("y"),
+                                        object.getDouble("x"),
+                                        object.getDouble("y"),
+                                        object.getDouble("dirX"),
+                                        object.getDouble("dirY"),
                                         object.getString("nume")
                                 ));
                     }
@@ -97,6 +99,8 @@ public class PlayPresenter implements Disposable {
                             object.getString("id"),
                             object.getDouble("x"),
                             object.getDouble("y"),
+                            object.getDouble("dirX"),
+                            object.getDouble("dirY"),
                             object.getString("nume")
                     ));
                 } catch (JSONException e) {
