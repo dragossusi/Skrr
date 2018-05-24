@@ -46,6 +46,8 @@ public class StartScreen extends BaseScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 getGame().setScreen(new PlayScreen(getGame()));
+                backgroundMusic.stop();
+                //pause();
             }
         });
         addActor(button);
