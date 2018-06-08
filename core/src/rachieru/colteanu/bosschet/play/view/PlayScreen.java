@@ -2,9 +2,12 @@ package rachieru.colteanu.bosschet.play.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
@@ -47,14 +50,18 @@ public class PlayScreen extends BaseScreen implements IPlayViewDelegate {
     boolean connected = false;
     Texture playerTexture = new Texture(Gdx.files.internal("player.png"));
     private Dialog dialogError;
+    private ShapeRenderer sr;
+    private Rectangle bounds = new Rectangle(-100f, -100f, 840f, 680f);
 
     public PlayScreen(SkrrGame game) {
         super(game);
         gameCamera = new OrthographicCamera();
+        gameCamera.setToOrtho(false, 640, 480);
         //viewport = new FitViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight(),gameCamera);
         viewport = new ScreenViewport(gameCamera);
         players = new HashMap<String, Player>();
         batch = new SpriteBatch();
+        sr = new ShapeRenderer();
         try {
             presenter = new PlayPresenter(this, playerTexture);
             presenter.init();
@@ -91,9 +98,11 @@ public class PlayScreen extends BaseScreen implements IPlayViewDelegate {
     @Override
     public void render(float delta) {
         super.render(delta);
-//        gameCamera.update();
-//        batch.setProjectionMatrix(gameCamera.combined);
+        gameCamera.update();
+        batch.setProjectionMatrix(gameCamera.combined);
         if (connected) {
+            gameCamera.position.x = me.getX() + 480;
+            gameCamera.position.y = me.getY() + 240;
             if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
 //                me.setX(me.getX() + 10);
                 me.rotate(HorizontalDirection.RIGHT);
@@ -112,6 +121,20 @@ public class PlayScreen extends BaseScreen implements IPlayViewDelegate {
                 player.draw(batch);
             batch.end();
             presenter.emitMoved(me);
+//            if(!me.getBoundingRectangle().overlaps(bounds)) { fixme
+//                me.move(VerticalDirection.BACKWARD);
+//            }
+
+            sr.setProjectionMatrix(gameCamera.combined);
+            sr.begin(ShapeRenderer.ShapeType.Line);
+            sr.setColor(new Color(0f, 0f, 1f, 0));
+            sr.rect(bounds.x,bounds.y,bounds.width,bounds.height);
+            sr.end();
+//            Rectangle rectangle = me.getBoundingRectangle();
+//            sr.begin(ShapeRenderer.ShapeType.Filled);
+//            sr.setColor(new Color(1f, 0f, 0f, 0.5f));
+//            sr.rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+//            sr.end();
         }
     }
 

@@ -18,6 +18,7 @@ public class Player extends Sprite {
     private String nume;
     private String id;
     private Vector2 direction = Vector2.X;
+    private float velocity = 0.0f;
 
     public Player(Texture texture, String id, float x, float y, float dirX, float dirY) {
         super(texture);
