@@ -103,18 +103,28 @@ public class PlayScreen extends BaseScreen implements IPlayViewDelegate {
         if (connected) {
             gameCamera.position.x = me.getX() + 480;
             gameCamera.position.y = me.getY() + 240;
-            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
-//                me.setX(me.getX() + 10);
-                me.rotate(HorizontalDirection.RIGHT);
-            if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
-//                me.setX(me.getX() - 10);
-                me.rotate(HorizontalDirection.LEFT);
-            if (Gdx.input.isKeyPressed(Input.Keys.UP))
-//                me.setY(me.getY() + 10);
-                me.move(VerticalDirection.FORWARD);
-            if (Gdx.input.isKeyPressed(Input.Keys.DOWN))
-//                me.setY(me.getY() - 10);
-                me.move(VerticalDirection.BACKWARD);
+//            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
+//                me.rotate(HorizontalDirection.RIGHT);
+//            if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
+//                me.rotate(HorizontalDirection.LEFT);
+//            if (Gdx.input.isKeyPressed(Input.Keys.UP))
+//                me.move(VerticalDirection.FORWARD);
+//            if (Gdx.input.isKeyPressed(Input.Keys.DOWN))
+//                me.move(VerticalDirection.BACKWARD);
+            if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+                me.setDriveDirection(Player.DRIVE_DIRECTION_FORWARD);
+            } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+                me.setDriveDirection(Player.DRIVE_DIRECTION_BACKWARD);
+            } else {
+                me.setDriveDirection(Player.DRIVE_DIRECTION_NONE);
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+                me.setTurnDirection(Player.TURN_DIRECTION_LEFT);
+            } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+                me.setTurnDirection(Player.TURN_DIRECTION_RIGHT);
+            } else {
+                me.setTurnDirection(Player.TURN_DIRECTION_NONE);
+            }
             batch.begin();
             me.draw(batch);
             for (Player player : players.values())
@@ -128,7 +138,7 @@ public class PlayScreen extends BaseScreen implements IPlayViewDelegate {
             sr.setProjectionMatrix(gameCamera.combined);
             sr.begin(ShapeRenderer.ShapeType.Line);
             sr.setColor(new Color(0f, 0f, 1f, 0));
-            sr.rect(bounds.x,bounds.y,bounds.width,bounds.height);
+            sr.rect(bounds.x, bounds.y, bounds.width, bounds.height);
             sr.end();
 //            Rectangle rectangle = me.getBoundingRectangle();
 //            sr.begin(ShapeRenderer.ShapeType.Filled);

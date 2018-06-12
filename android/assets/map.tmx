@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map height="54" infinite="0" nextobjectid="168" orientation="orthogonal" renderorder="left-down"
+    tiledversion="1.1.5" tileheight="128" tilewidth="128" version="1.0" width="100">
+    <objectgroup name="wall">
+        <object height="20" id="140" width="1000" x="-100" y="-120" />
+        <object height="1000" id="141" width="20" x="-120" y="-120" />
+        <object height="20" id="142" width="1000" x="900" y="-100" />
+        <object height="1000" id="143" width="20" x="1152" y="4352" />
+    </objectgroup>
+    <objectgroup name="player">
+        <object height="256" id="166" width="128" x="640" y="1920" />
+    </objectgroup>
+</map>
