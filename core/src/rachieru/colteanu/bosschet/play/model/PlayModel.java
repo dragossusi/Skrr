@@ -12,10 +12,10 @@ public class PlayModel {
 
     private Socket socket;
 
-    public PlayModel() throws URISyntaxException {
+    public PlayModel(String host) throws URISyntaxException {
         IO.Options options = new IO.Options();
         options.timeout = 5000;
-        socket = IO.socket("http://localhost:3000",options);
+        socket = IO.socket(host,options);
     }
 
     public void getPlayers(Emitter.Listener listener) {

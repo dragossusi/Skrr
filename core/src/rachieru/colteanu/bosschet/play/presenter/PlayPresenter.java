@@ -20,14 +20,14 @@ import rachieru.colteanu.bosschet.ui.player.Player;
 
 public class PlayPresenter implements Disposable {
 
-    PlayModel model;
-    IPlayViewDelegate viewDelegate;
-    Texture playerTexture;
-    Gson gson;
+    private PlayModel model;
+    private IPlayViewDelegate viewDelegate;
+    private Texture playerTexture;
+    private Gson gson;
 
-    public PlayPresenter(IPlayViewDelegate viewDelegate, Texture texture) throws URISyntaxException {
+    public PlayPresenter(IPlayViewDelegate viewDelegate, String host,Texture texture) throws URISyntaxException {
         this.viewDelegate = viewDelegate;
-        model = new PlayModel();
+        model = new PlayModel(host);
         gson = new Gson();
         playerTexture = texture;
     }

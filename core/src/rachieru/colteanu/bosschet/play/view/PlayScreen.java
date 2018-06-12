@@ -31,6 +31,7 @@ import rachieru.colteanu.bosschet.base.BaseScreen;
 import rachieru.colteanu.bosschet.base.HorizontalDirection;
 import rachieru.colteanu.bosschet.base.VerticalDirection;
 import rachieru.colteanu.bosschet.play.presenter.PlayPresenter;
+import rachieru.colteanu.bosschet.start.StartScreen;
 import rachieru.colteanu.bosschet.ui.player.Player;
 
 /**
@@ -53,7 +54,7 @@ public class PlayScreen extends BaseScreen implements IPlayViewDelegate {
     private ShapeRenderer sr;
     private Rectangle bounds = new Rectangle(-100f, -100f, 840f, 680f);
 
-    public PlayScreen(SkrrGame game) {
+    public PlayScreen(SkrrGame game, String host) {
         super(game);
         gameCamera = new OrthographicCamera();
         gameCamera.setToOrtho(false, 640, 480);
@@ -63,10 +64,10 @@ public class PlayScreen extends BaseScreen implements IPlayViewDelegate {
         batch = new SpriteBatch();
         sr = new ShapeRenderer();
         try {
-            presenter = new PlayPresenter(this, playerTexture);
+            presenter = new PlayPresenter(this, host, playerTexture);
             presenter.init();
         } catch (URISyntaxException e) {
-            getGame().setScreen(new PlayScreen(getGame()));
+            getGame().setScreen(new StartScreen(getGame()));
         }
     }
 
@@ -128,7 +129,7 @@ public class PlayScreen extends BaseScreen implements IPlayViewDelegate {
             sr.setProjectionMatrix(gameCamera.combined);
             sr.begin(ShapeRenderer.ShapeType.Line);
             sr.setColor(new Color(0f, 0f, 1f, 0));
-            sr.rect(bounds.x,bounds.y,bounds.width,bounds.height);
+            sr.rect(bounds.x, bounds.y, bounds.width, bounds.height);
             sr.end();
 //            Rectangle rectangle = me.getBoundingRectangle();
 //            sr.begin(ShapeRenderer.ShapeType.Filled);
